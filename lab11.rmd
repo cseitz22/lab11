@@ -1,1 +1,58 @@
+---
+title: "Lab 11 - So what if you smoke when pregnant?"
+author: "Cat Seitz"
+date: "03.16.23"
+output: github_document
+---
+
+### Load packages and data
+
+```{r load-packages, message=FALSE}
+
+library(tidyverse) 
+library(infer)
+library(openintro)
+
+```
+
+```{r set-seed}
+
+set.seed(1234)
+
+```
+
+```{r load-data}
+
+data(ncbirths)
+
+```
+
+
+### Exercise 1
+
+This data set contains 1000 observations of births in North Carolina with 13 variables, including the parents ages, the maturity of the mother (whatever that means), length of pregnancy and classification, weight of baby and classification, weight gained by mother, number of hospital visits pre-birth, baby's gender, whether the mother is white, a smoker, and is married. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
