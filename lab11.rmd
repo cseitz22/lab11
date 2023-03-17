@@ -30,7 +30,16 @@ data(ncbirths)
 
 ### Exercise 1
 
-This data set contains 1000 observations of births in North Carolina with 13 variables, including the parents ages, the maturity of the mother (whatever that means), length of pregnancy and classification, weight of baby and classification, weight gained by mother, number of hospital visits pre-birth, baby's gender, whether the mother is white, a smoker, and is married. 
+This data set contains 1000 observations of births in North Carolina with 13 variables, including the parents ages, the maturity of the mother (whatever that means), length of pregnancy and classification, weight of baby and classification, weight gained by mother, number of hospital visits pre-birth, baby's gender, whether the mother is white, a smoker, and is married. The ages, weeks, # of visits, and weight variables are numeric. The rest are categorical. As for outliers, it seem a little strange that a pregnant individual wouldn't gain any weight, but given that a fairly large amount of participants in this study report that, I guess it is fine. Other than that, there doesn't seem to be any crazy outliers. 
+
+### Exercise 2
+
+```{r filtered-df}
+
+ncbirths_white <- ncbirths%>%
+  filter(whitemom=="white")
+
+```
 
 
 
