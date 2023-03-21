@@ -12,6 +12,7 @@ output: github_document
 library(tidyverse) 
 library(infer)
 library(openintro)
+library(bootstrap)
 
 ```
 
@@ -41,17 +42,43 @@ ncbirths_white <- ncbirths%>%
 
 ```
 
+```{r calc-mean-white-baby}
+
+mean(ncbirths_white$weight)
+
+```
+
+The mean birth weight of our sample of Caucasian babies is 7.25, which is obviously not 7.43. 
 
 
+### Exercise 3
+
+Not sure what this is asking. But, why couldn't/wouldn't we just do a t-test here? Just to be ore accurate?
+
+```{r t-test}
+
+t.test(ncbirths_white$weight, mu=7.43)
+
+```
 
 
+### Exercise 4
 
+```{r boots}
 
+white_boot <- bootstraps(ncbirths_white, times = 1000)
 
+white_models <- white_boot %>%
+  mutate(
+    model = map(splits, ~ lm(weights ~ whitemom, data = .)),
+    coef_info = map(model, tidy)
+  )
 
+white_coefs <- white_models %>%
+  unnest(coef_info)
 
-
-
+int_pctl(white_models, coef_info)
+```
 
 
 
