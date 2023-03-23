@@ -53,7 +53,7 @@ The mean birth weight of our sample of Caucasian babies is 7.25, which is obviou
 
 ### Exercise 3
 
-Not sure what this is asking. But, why couldn't/wouldn't we just do a t-test here? Just to be ore accurate?
+Not sure what this is asking. But, why couldn't/wouldn't we just do a t-test here? Just to be more accurate?
 
 ```{r t-test}
 
@@ -64,7 +64,35 @@ t.test(ncbirths_white$weight, mu=7.43)
 
 ### Exercise 4
 
+
+
+
 ```{r boots}
+
+boot_df<-ncbirths_white %>%
+  specify(response=weight) %>%
+  generate(rep=1000, type="bootstrap") %>%
+  calculate(stat="mean")
+
+```
+
+```{r plot-boot-weight}
+
+ggplot(data = boot_df, mapping = aes(x = stat)) +
+  geom_histogram(binwidth = .01) +
+  labs(title = "Bootstrap distribution of means")
+
+```
+
+
+
+
+
+
+
+
+```{r model}
+
 
 white_boot <- bootstraps(ncbirths_white, times = 1000)
 
@@ -78,6 +106,7 @@ white_coefs <- white_models %>%
   unnest(coef_info)
 
 int_pctl(white_models, coef_info)
+
 ```
 
 
