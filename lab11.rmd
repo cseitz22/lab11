@@ -73,44 +73,40 @@ boot_df<-ncbirths_white %>%
   specify(response=weight) %>%
   generate(rep=1000, type="bootstrap") %>%
   calculate(stat="mean")
-
 ```
 
 ```{r plot-boot-weight}
 
 ggplot(data = boot_df, mapping = aes(x = stat)) +
   geom_histogram(binwidth = .01) +
-  labs(title = "Bootstrap distribution of means")
+  labs(title = "Bootstrap distribution of means")+
+  geom_vline(xintercept = 7.145508,color = "lightblue", linewidth=2)+
+  geom_vline(xintercept = 7.352768,color = "lightblue", linewidth=2)
+
+```
+
+```{r conf-interval-weight}
+
+boot_df %>%
+  summarize(lower = quantile(stat, 0.025),
+            upper = quantile(stat, 0.975))
 
 ```
 
 
+```{r add-column-shifting-means}
 
-
-
-
-
-
-```{r model}
-
-
-white_boot <- bootstraps(ncbirths_white, times = 1000)
-
-white_models <- white_boot %>%
-  mutate(
-    model = map(splits, ~ lm(weights ~ whitemom, data = .)),
-    coef_info = map(model, tidy)
-  )
-
-white_coefs <- white_models %>%
-  unnest(coef_info)
-
-int_pctl(white_models, coef_info)
+boot_df<- boot_df%>%
+  mutate(shift=stat+.180862)
 
 ```
 
 
+```{r t-test-2-columns}
 
+t.test(boot_df$stat, boot_df$shift, paired=FALSE, var.equal=TRUE)
+
+```
 
 
 
