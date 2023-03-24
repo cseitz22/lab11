@@ -108,6 +108,63 @@ t.test(boot_df$stat, boot_df$shift, paired=FALSE, var.equal=TRUE)
 
 ```
 
+The average weight of white babies now is lower than the average weight of white babies in 1995. 
+
+### Exercise 5 & 6
+
+I did exercise 6 (taking out NAs) before I knew what it was. 
+
+```{r drop-na}
+
+ncbirths<-ncbirths %>% drop_na(habit)
+
+```
+
+```{r plot-smoking-mothers}
+
+ggplot(ncbirths, aes(habit, weight, fill=habit)) +
+  geom_bar(stat="summary", position="dodge") +
+  xlab("Smoking Habit") + ylab("Baby Weight (lbs)") +
+  scale_fill_brewer(palette="Dark2") +
+  theme(legend.position="none")
+
+```
+
+### Exercise 7
+
+Null hypothesis: There is no difference in babies born to smokers and nonsmokers. 
+
+### Exercise 8 
+
+Still don't really understand what this question is asking. 
+
+### Exercise 9
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
