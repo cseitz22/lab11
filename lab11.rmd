@@ -11,8 +11,10 @@ output: github_document
 
 library(tidyverse) 
 library(infer)
+library(knitr)
 library(openintro)
-library(bootstrap)
+library(scales)
+library(tidymodels)
 
 ```
 
@@ -134,20 +136,59 @@ ggplot(ncbirths, aes(habit, weight, fill=habit)) +
 
 Null hypothesis: There is no difference in babies born to smokers and nonsmokers. 
 
+```{r new-df}
+
+ncbirths_habit<- ncbirths %>%
+  subset(select=c(weight, habit))
+
+```
+
 ### Exercise 8 
 
 Still don't really understand what this question is asking. 
 
+```{r peek}
+
+ncbirths_habitgiven<- ncbirths_habit %>%
+  group_by(habit) %>%
+  summarise(mean_weight = mean(weight))
+
+```
+
+Looks like babies born to nonsmokers are heavier than babies born to smokers. 
+
 ### Exercise 9
 
 
+```{r boots}
+
+# take 1000 bootstrap samples
+habit_boot <- bootstraps(ncbirths_habit, times = 1000)
+
+# for each sample
+# fit a model and save output in model column
+# tidy model output and save in coef_info column 
+habit_models <- habit_boot %>%
+  mutate(
+    model = map(splits, ~ lm(weight ~ habit, data = .)),
+    coef_info = map(model, tidy)
+  )
+# unnest coef_info (for intercept and slope)
+habit_coefs <- habit_models %>%
+  unnest(coef_info)
+
+```
 
 
+### Exercise 10
 
+```{r confidence-interval}
+# calculate 95% (default) percentile interval
+int_pctl(habit_models, coef_info)
 
+```
 
-
-
+We are 95% confident that smokers have babies that are between 0.060-0.582 pounds lighter than non-smokers. 
 
 
 
