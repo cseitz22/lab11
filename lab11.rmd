@@ -179,6 +179,34 @@ habit_coefs <- habit_models %>%
 
 ```
 
+```{r calc-p}
+
+habit_coefs %>%
+  group_by(term)%>%
+  summarise(mean_est=mean(estimate))
+
+```
+
+If a mother is a smoker, then the baby will likely weigh .31 pounds less than a baby born to a non-smoking mother. 
+
+To calculate a p-value, we can create a data frame with our bootstrapping estimates, add a column that adds the mean to each estimate, and run a t-test to calculate if there was a difference?
+
+```{r make-df-for-p}
+
+habit_test <- habit_coefs%>%
+  select(c(term, estimate))%>%
+  filter(term == "habitsmoker") %>%
+  mutate(same_est= estimate + .318)
+
+```
+
+```{r t-test-2-columns}
+
+t.test(habit_test$estimate, habit_test$same_est, paired=FALSE, var.equal=TRUE)
+
+```
+
+Based on these results, the slope are significantly different. 
 
 ### Exercise 10
 
@@ -191,6 +219,12 @@ int_pctl(habit_models, coef_info)
 We are 95% confident that smokers have babies that are between 0.060-0.582 pounds lighter than non-smokers. 
 
 
+### Exercise 11
+
+Based off looking at the data, I found that older moms are ages 35+ and younger moms are less than 35 years old. 
+
+
+### Exercise 12
 
 
 
